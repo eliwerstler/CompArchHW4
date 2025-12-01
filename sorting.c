@@ -45,16 +45,21 @@ void sort_array(uint32_t *arr, size_t size) {
 }
 
 int main() {
-    size_t size = 10; // temp for compile
+    // size_t size = 10; // temp for compile
+    uint32_t arr[] = {5, 3, 8, 1, 0, 7, 2, 4};
+    size_t size = sizeof(arr) / sizeof(arr[0]);
 
     //Initialise the array
 
-    uint32_t *sorted_arr = malloc(size * sizeof(uint32_t)); // Allocate memory for the sorted array
+    // uint32_t *sorted_arr = malloc(size * sizeof(uint32_t)); // Allocate memory for the sorted array
     
     // Sort the copied array
-    sort_array(sorted_arr, size);
+    sort_array(arr, size);
 
     // Print the sorted array
+    for (size_t i = 0; i < size; i++)
+        printf("%u ", arr[i]);
+    printf("\n");
 
     return 0;
 }
