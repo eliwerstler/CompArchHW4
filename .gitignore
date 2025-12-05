@@ -3,3 +3,4 @@ test_sorting
 
 *.o
 *.dSYM
+TESTING.md
