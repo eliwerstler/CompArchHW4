@@ -45,14 +45,50 @@ void sort_array(uint32_t *arr, size_t size) {
 }
 #ifndef TESTING
 int main(void) {
-    // sanity run
-    uint32_t arr[] = {5, 3, 8, 1, 0, 7, 2, 4};
-    size_t size = sizeof(arr) / sizeof(arr[0]);
+    const char *in_path = "input.bin";
+    const char *out_path = "output.bin";
+
+    // Read
+    FILE *in = fopen(in_path, "rb");
+    if (!in) return 1;
+    if (fseek(in, 0, SEEK_END) != 0) {
+        fclose(in);
+        return 1;
+    }
+    long bytes = ftell(in);
+    if (bytes < 0) {
+        fclose(in);
+        return 1;
+    }
+    size_t size = (size_t)(bytes / sizeof(uint32_t));
+    if (fseek(in, 0, SEEK_SET) != 0) {
+        fclose(in);
+        return 1;
+    }
+
+    uint32_t *arr = malloc(size * sizeof(uint32_t));
+    if (!arr) {
+        fclose(in);
+        return 1;
+    }
+    size_t read = fread(arr, sizeof(uint32_t), size, in);
+    fclose(in);
+    if (read != size) {
+        free(arr);
+        return 1;
+    }
+
     sort_array(arr, size);
-    for (size_t i = 0; i < size; i++) printf("%u ", arr[i]);
-    printf("\n");
-    return 0;
+
+    // write
+    FILE *out = fopen(out_path, "wb");
+    if (!out) {
+        free(arr);
+        return 1;
+    }
+    size_t wrote = fwrite(arr, sizeof(uint32_t), size, out);
+    fclose(out);
+    free(arr);
+    return wrote == size ? 0 : 1;
 }
 #endif
-
-       
