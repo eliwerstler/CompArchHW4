@@ -1,19 +1,20 @@
-CC=gcc
-CFLAGS=-Wall -Wextra -O0
+CC ?= gcc
+CFLAGS ?= -Wall -Wextra -O0
+RADIX_FLAGS ?=
 
-all: sorting
+all: sorter
 
-sorting: sorting.c
-	$(CC) $(CFLAGS) sorting.c -o sorting
+sorter: sorting.c
+	$(CC) $(CFLAGS) $(RADIX_FLAGS) sorting.c -o sorter
 
 test_sorting: sorting.c tests/test_sorting.c
-	$(CC) $(CFLAGS) -DTESTING sorting.c tests/test_sorting.c -o test_sorting
+	$(CC) $(CFLAGS) $(RADIX_FLAGS) -DTESTING sorting.c tests/test_sorting.c -o test_sorting
 
 test: test_sorting
 	./test_sorting
 
-run: sorting
-	./sorting
+run: sorter
+	./sorter
 
 clean:
-	rm -f sorting test_sorting
+	rm -f sorter test_sorting
