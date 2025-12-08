@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -Wextra -O0
+CFLAGS=-Wall -Wextra -O3 -march=native -mtune=native
 
 all: sorting
 

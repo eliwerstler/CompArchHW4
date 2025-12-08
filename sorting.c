@@ -8,8 +8,8 @@
 void sort_array(uint32_t *arr, size_t size) {
     if (size <= 1) return;
 
-    uint32_t *out = malloc(size * sizeof(uint32_t));
-    if (!out) exit(1);
+    uint32_t *out = NULL;
+    if (posix_memalign((void **)&out, 64, size * sizeof(uint32_t)) != 0 || !out) exit(1);
 
     size_t count[256];
 
@@ -17,7 +17,7 @@ void sort_array(uint32_t *arr, size_t size) {
     for (unsigned shift = 0; shift < 32; shift += 8) {
 
         // reset count
-        for (int i = 0; i < 256; i++) count[i] = 0;
+        memset(count, 0, sizeof(count));
 
         // count byte values
         for (size_t i = 0; i < size; i++)
