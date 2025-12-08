@@ -5,6 +5,7 @@ import math
 import random
 import statistics
 from array import array
+import csv  # cloudlab machines don't have matplot
 
 EXECUTABLE = "./sorter"  # declared here in case you want to use a different executable
 INPUT_FILE = "input.bin"
@@ -13,6 +14,7 @@ REPEATS = 3  # you can decrease this if the simulator takes too long to run
 SEED = 67  # im so sorry
 SIZES = [10, 100, 1000, 10_000, 100_000, 1_000_000, 10_000_000]
 DATASET_TYPES = ["sorted", "uniform", "normal", "longtail"]
+CSV_FILE = "results.csv"
 
 
 # compile sorting.c:
@@ -22,7 +24,7 @@ def compile_sorter():
         print(f"sorting.c not found.")
         exit(1)
 
-    cmd = ["gcc", "sorting.c", "-o", "sorter"]
+    cmd = ["gcc", "-O3", "sorting.c", "-o", "sorter"]
     print("Compiling:", " ".join(cmd))
     result = subprocess.run(cmd, capture_output=True, text=True)
 
@@ -116,6 +118,7 @@ def run_trial():
 def main():
     random.seed(SEED)
     compile_sorter()
+    csv_data = []  # for jaxson's plots
 
     print("\nOutput format: DATASET, SIZE, TIME: MEAN (SEC), TIME: STD DEV (SEC), MEMORY: MEAN (MB), CORRECT (1/0), TIME/GB (SEC)")
 
@@ -157,10 +160,18 @@ def main():
 
             time_per_gb = mean_time / size_gb if size_gb != 0 else float("inf")
 
-            print(f"{dtype}, {n}, {mean_time:.6f}, {std_time:.6f}, {mean_mem:.2f}, {int(correct)}, {time_per_gb:.4f}")
+            csv_data.append([mean_time, std_time, mean_mem, time_per_gb])  # for jaxson's plots
+            print(f"{mean_time:.6f}, {std_time:.6f}, {mean_mem:.2f}, {int(correct)}, {time_per_gb:.4f}")
 
     print("\nAll tests finished")
 
+    # FOR JAXSON'S PLOTS
+    with open(CSV_FILE, "w", newline="") as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(["dataset", "size", "mean_time", "std_time", "mean_memory_MB", "time_per_gb"])
+        writer.writerows(csv_data)
+    print("Saved results to", CSV_FILE)
+    # FOR JAXSON'S PLOTS
+
 if __name__ == "__main__":
     main()
-
