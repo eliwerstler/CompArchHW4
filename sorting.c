@@ -3,11 +3,7 @@
 #include <stdint.h> 
 #include <string.h>
 
-#ifdef RADIX16
 #define RADIX_BITS 16
-#else
-#define RADIX_BITS 8
-#endif
 #define RADIX_BUCKETS (1u << RADIX_BITS)
 #define RADIX_PASSES (32 / RADIX_BITS)
 
