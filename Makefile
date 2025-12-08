@@ -1,6 +1,6 @@
 CC ?= gcc
 CFLAGS ?= -Wall -Wextra -O0
-RADIX_FLAGS ?=
+RADIX_FLAGS ?= -DRADIX16
 
 all: sorter
 

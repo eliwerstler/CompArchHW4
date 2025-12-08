@@ -6,16 +6,18 @@ files
 - Makefile: builds and runs everything
 
 notes
-- default build uses 8-bit digits (4 passes); build with -DRADIX16 for 16-bit digits (2 passes)
+- default build uses 16-bit digits (2 passes) via -DRADIX16; remove that flag for 8-bit digits (4 passes)
 - single memcpy happens at the end only if needed (ping pong)
 - main reads input.bin, sorts, writes output.bin
 - simulator.py compiles sorting.c to ./sorter and feeds input.bin/output.bin
 
 commands
-- make sorting
-- make run
-- make test
-- make clean
+- make sorter              # build (16-bit digits by default)
+- make RADIX_FLAGS= sorter # build with 8-bit digits (note the underscore)
+- make run                 # run ./sorter on input.bin -> output.bin
+- make RADIX_FLAGS= run    # run using an 8-bit build in one step
+- make test                # run unit tests
+- make clean               # remove binaries
 
 old sort_array
 ```
