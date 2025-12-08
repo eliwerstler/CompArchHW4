@@ -1,5 +1,8 @@
 sorting
+sorter
 test_sorting
+input.bin
+output.bin
 
 *.o
 *.dSYM

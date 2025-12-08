@@ -27,7 +27,7 @@ void sort_array(uint32_t *arr, size_t size) {
     for (unsigned shift = 0; shift < 32; shift += RADIX_BITS) {
 
         // reset count
-        for (int i = 0; i < RADIX_BUCKETS; i++) count[i] = 0;
+        for (size_t i = 0; i < RADIX_BUCKETS; i++) count[i] = 0;
 
         // count byte values
         for (size_t i = 0; i < size; i++)
@@ -35,7 +35,7 @@ void sort_array(uint32_t *arr, size_t size) {
 
         // prefix sums
         size_t p = 0;
-        for (int i = 0; i < RADIX_BUCKETS; i++) {
+        for (size_t i = 0; i < RADIX_BUCKETS; i++) {
             size_t c = count[i];
             count[i] = p;
             p += c;
