@@ -20,7 +20,6 @@ void sort_array(uint32_t *arr, size_t size) {
     if (!out) exit(1);
 
     size_t count[RADIX_BUCKETS];
-    // size_t count[256];
     uint32_t *src = arr;
     uint32_t *dst = out;
 
@@ -29,12 +28,10 @@ void sort_array(uint32_t *arr, size_t size) {
 
         // reset count
         for (int i = 0; i < RADIX_BUCKETS; i++) count[i] = 0;
-        // for (int i = 0; i < 256; i++) count[i] = 0;
 
         // count byte values
         for (size_t i = 0; i < size; i++)
             count[(src[i] >> shift) & (RADIX_BUCKETS - 1)]++;
-            // count[(arr[i] >> shift) & 0xFF]++;
 
         // prefix sums
         size_t p = 0;
@@ -48,15 +45,12 @@ void sort_array(uint32_t *arr, size_t size) {
         for (size_t i = 0; i < size; i++) {
             unsigned b = (src[i] >> shift) & (RADIX_BUCKETS - 1);
             dst[count[b]++] = src[i];
-            // unsigned b = (arr[i] >> shift) & 0xFF;
-            // out[count[b]++] = arr[i];
         }
 
         // swap buffers (ping-pong)
         uint32_t *tmp = src;
         src = dst;
         dst = tmp;
-        // memcpy(arr, out, size * sizeof(uint32_t));
     }
 
     if (src != arr) memcpy(arr, src, size * sizeof(uint32_t));
