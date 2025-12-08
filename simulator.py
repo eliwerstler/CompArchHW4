@@ -19,7 +19,7 @@ DATASET_TYPES = ["sorted", "uniform", "normal", "longtail"]
 
 def compile_sorter():
     if not os.path.exists("sorting.c"):
-        print(f"{"sorting.c"} not found.")
+        print("sorting.c not found.")
         exit(1)
 
     cmd = ["gcc", "sorting.c", "-o", "sorter"]
