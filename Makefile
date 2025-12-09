@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -Wextra -O3 -march=native -mtune=native
+CFLAGS=-Wall -Wextra -O0
 
 all: sorting
 
@@ -16,4 +16,4 @@ run: sorting
 	./sorting
 
 clean:
-	rm -f sorting test_sorting
+	rm -f sorting sorter test_sorting input.bin output.bin results.csv
