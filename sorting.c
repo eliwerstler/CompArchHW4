@@ -12,6 +12,8 @@ void sort_array(uint32_t *arr, size_t size) {
     if (posix_memalign((void **)&out, 64, size * sizeof(uint32_t)) != 0 || !out) exit(1);
 
     size_t count[256];
+    uint32_t *src = arr;
+    uint32_t *dst = out;
 
     // 4 byte passes
     for (unsigned shift = 0; shift < 32; shift += 8) {
@@ -21,7 +23,7 @@ void sort_array(uint32_t *arr, size_t size) {
 
         // count byte values
         for (size_t i = 0; i < size; i++)
-            count[(arr[i] >> shift) & 0xFF]++;
+            count[(src[i] >> shift) & 0xFF]++;
 
         // prefix sums
         size_t p = 0;
@@ -33,13 +35,17 @@ void sort_array(uint32_t *arr, size_t size) {
 
         // place in output
         for (size_t i = 0; i < size; i++) {
-            unsigned b = (arr[i] >> shift) & 0xFF;
-            out[count[b]++] = arr[i];
+            unsigned b = (src[i] >> shift) & 0xFF;
+            dst[count[b]++] = src[i];
         }
 
-        // copy back
-        memcpy(arr, out, size * sizeof(uint32_t));
+        // swap buffers
+        uint32_t *tmp = src;
+        src = dst;
+        dst = tmp;
     }
+
+    if (src != arr) memcpy(arr, src, size * sizeof(uint32_t));
 
     free(out);
 }
