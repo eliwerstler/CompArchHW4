@@ -120,7 +120,7 @@ def main():
     compile_sorter()
     csv_data = []  # for jaxson's plots
 
-    print("\nOutput format: DATASET, SIZE, TIME: MEAN (SEC), TIME: STD DEV (SEC), MEMORY: MEAN (MB), CORRECT (1/0), TIME/GB (SEC)")
+    print("\nOutput format: TIME: MEAN (SEC), TIME: STD DEV (SEC), MEMORY: MEAN (MB), CORRECT (1/0), TIME/GB (SEC)")
 
     for dtype in DATASET_TYPES:
         for n in SIZES:
@@ -168,10 +168,11 @@ def main():
     # FOR JAXSON'S PLOTS
     with open(CSV_FILE, "w", newline="") as csvfile:
         writer = csv.writer(csvfile)
-        writer.writerow(["dataset", "size", "mean_time", "std_time", "mean_memory_MB", "time_per_gb"])
+        writer.writerow(["mean_time", "std_time", "mean_memory_MB", "time_per_gb"])
         writer.writerows(csv_data)
     print("Saved results to", CSV_FILE)
     # FOR JAXSON'S PLOTS
 
 if __name__ == "__main__":
     main()
+
