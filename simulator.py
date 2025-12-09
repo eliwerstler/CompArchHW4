@@ -24,7 +24,7 @@ def compile_sorter():
         print(f"sorting.c not found.")
         exit(1)
 
-    cmd = ["gcc", "-O3", "sorting.c", "-o", "sorter"]
+    cmd = ["gcc", "sorting.c", "-o", "sorter"]
     print("Compiling:", " ".join(cmd))
     result = subprocess.run(cmd, capture_output=True, text=True)
 
@@ -175,4 +175,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
