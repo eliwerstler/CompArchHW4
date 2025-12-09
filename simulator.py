@@ -120,7 +120,7 @@ def main():
     compile_sorter()
     csv_data = []  # for jaxson's plots
 
-    print("\nOutput format: TIME: MEAN (SEC), TIME: STD DEV (SEC), MEMORY: MEAN (MB), CORRECT (1/0), TIME/GB (SEC)")
+    print("\nOutput format: DATASET, SIZE, TIME: MEAN (SEC), TIME: STD DEV (SEC), MEMORY: MEAN (MB), CORRECT (1/0), TIME/GB (SEC)")
 
     for dtype in DATASET_TYPES:
         for n in SIZES:
@@ -160,20 +160,18 @@ def main():
 
             time_per_gb = mean_time / size_gb if size_gb != 0 else float("inf")
 
-            csv_data.append([mean_time, std_time, mean_mem, time_per_gb])  # for jaxson's plots
-            print(f"{mean_time:.6f}, {std_time:.6f}, {mean_mem:.2f}, {int(correct)}, {time_per_gb:.4f}")
+            csv_data.append([dtype, n, mean_time, std_time, mean_mem, time_per_gb])  # for jaxson's plots
+            # print(f"{mean_time:.6f}, {std_time:.6f}, {mean_mem:.2f}, {int(correct)}, {time_per_gb:.4f}")
 
     print("\nAll tests finished")
 
     # FOR JAXSON'S PLOTS
     with open(CSV_FILE, "w", newline="") as csvfile:
         writer = csv.writer(csvfile)
-        writer.writerow(["mean_time", "std_time", "mean_memory_MB", "time_per_gb"])
+        writer.writerow(["dataset_type", "size", "mean_time", "std_time", "mean_memory_MB", "time_per_gb"])
         writer.writerows(csv_data)
     print("Saved results to", CSV_FILE)
     # FOR JAXSON'S PLOTS
 
 if __name__ == "__main__":
     main()
-
-
