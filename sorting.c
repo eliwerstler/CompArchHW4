@@ -35,6 +35,7 @@ void sort_array(uint32_t *arr, size_t size) {
 
         // place in output
         for (size_t i = 0; i < size; i++) {
+            __builtin_prefetch(src + i + 64, 0, 1);
             unsigned b = (src[i] >> shift) & 0xFF;
             dst[count[b]++] = src[i];
         }
